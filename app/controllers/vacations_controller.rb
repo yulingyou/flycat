@@ -6,9 +6,10 @@ class VacationsController < ApplicationController
   before_action :unable_signoff, only: %i[signoff]
 
   def index
+    
     vacations = if current_user.role == 'staff'
                   current_user.vacations.order(vacation_at: :asc)
-                else
+                else # [‘admin’,’manager’].include? current_user.role
                   current_company.vacations.order(vacation_at: :asc)
                 end
     @vacation_result = vacations.pending + vacations.approved + vacations.rejected
