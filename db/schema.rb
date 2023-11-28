@@ -101,13 +101,6 @@ ActiveRecord::Schema.define(version: 2022_06_06_123903) do
     t.index ["work_shift_id"], name: "index_events_on_work_shift_id"
   end
 
-  create_table "feedbacks", force: :cascade do |t|
-    t.string "author"
-    t.string "message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -133,6 +126,7 @@ ActiveRecord::Schema.define(version: 2022_06_06_123903) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "user_id"
+    t.string "company_id"
   end
 
   create_table "profiles", force: :cascade do |t|

@@ -1,4 +1,13 @@
 first_vacation:
-  vacation_type: ""
+  vacation_type: "病假"
   user_id: 1
   company_id: 1
+  reason: ""
+  vacation_at: "2023-01-24"
+
+second_vacation:
+  vacation_type: "123"
+  user_id: 1
+  company_id: 1
+  reason: ""
+
