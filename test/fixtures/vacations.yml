@@ -11,3 +11,9 @@ second_vacation:
   company_id: 1
   reason: ""
 
+one:
+  vacation_type: "事假"
+  user_id: 1
+  company_id: 1
+  reason: ""
+  vacation_at: "2023-01-20"

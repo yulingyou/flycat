@@ -6,9 +6,10 @@ class VacationsController < ApplicationController
   before_action :unable_signoff, only: %i[signoff]
 
   def index
-    
+    puts "index"
     vacations = if current_user.role == 'staff'
                   current_user.vacations.order(vacation_at: :asc)
+                  byebug
                 else # [‘admin’,’manager’].include? current_user.role
                   current_company.vacations.order(vacation_at: :asc)
                 end
@@ -26,8 +27,11 @@ class VacationsController < ApplicationController
   end
 
   def create
+    puts "first"
     @vacation = current_company.vacations.new(vacation_params.merge(user: current_user))
-    if @vacation.save
+    puts "test"
+    puts @vacation
+    if @vacation.save!
       redirect_to vacations_path, notice: t('.假單申請成功')
     else
       render :new
