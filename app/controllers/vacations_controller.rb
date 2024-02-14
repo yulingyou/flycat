@@ -16,7 +16,6 @@ class VacationsController < ApplicationController
   end
 
   def show
-    @vacation = Vacation.find(params[:id])
   end
   
   def new
@@ -25,7 +24,6 @@ class VacationsController < ApplicationController
 
   def edit
     @vacation = Vacation.find_by(slug: params[:id])
-    puts pp @vacation.attributes
     if @vacation.status != 'pending'
       redirect_to vacation_path(@vacation), alert: '不可編輯，簽核已完成' 
     end
@@ -34,7 +32,6 @@ class VacationsController < ApplicationController
   def create
     @vacation = current_company.vacations.new(vacation_params.merge(user: current_user))
     if @vacation.save!
-      # pp @vacation.attributes
       redirect_to vacation_path(@vacation), notice: t('.假單申請成功')
     else
       render :new

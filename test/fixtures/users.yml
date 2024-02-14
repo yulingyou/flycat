@@ -4,3 +4,8 @@ first_user:
     role: "admin"
     company_id: 1
   
+second_user:
+    id: 2    
+    email: "test2@mail"
+    role: "admin"
+    company_id: 2

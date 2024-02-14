@@ -11,8 +11,7 @@ class VacationsControllerTest <
       user_id: 1,
       company_id: 1,
       reason: "",
-      vacation_at: "2023-01-20",
-      status: "approved"
+      vacation_at: "2023-01-20"
     )
   end
 
@@ -47,11 +46,26 @@ class VacationsControllerTest <
   end
 
   test "should show vacation" do
+    # p @vacation
+    # p vacation_url(@vacation)
     get vacation_url(@vacation)
     assert_response :success
   end
 
+  test "should not show vacation if that's under different company" do 
+    other_vacation = Vacation.create!(
+      vacation_type: "事假",
+      user_id: 2,
+      company_id: 2,
+      reason: "",
+      vacation_at: "2023-01-20",
+    )
+    get vacation_url(other_vacation)
+    assert_response :missing
+  end
+
   test "should redirect when vacation's status not pending" do
+    @vacation.update(status: "approved")
     get edit_vacation_url(@vacation)
     assert_redirected_to vacation_url(@vacation)
   end
@@ -64,7 +78,6 @@ class VacationsControllerTest <
       company_id: 1,
       reason: "",
       vacation_at: "2023-01-30",
-      status: 'pending'
     )
     get edit_vacation_url(vacation_pending)
     assert_response :success

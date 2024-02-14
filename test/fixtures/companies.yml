@@ -2,3 +2,8 @@ first_company:
     id: 1
     title: "test"
     ubn: "222222"
+
+second_company:
+    id: 2
+    title: "test_2"
+    ubn: "222220"
