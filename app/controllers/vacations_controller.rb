@@ -6,7 +6,6 @@ class VacationsController < ApplicationController
   before_action :unable_signoff, only: %i[signoff]
 
   def index
-    puts "index"
     vacations = if current_user.role == 'staff'
                   current_user.vacations.order(vacation_at: :asc)
                   byebug
@@ -16,23 +15,27 @@ class VacationsController < ApplicationController
     @vacation_result = vacations.pending + vacations.approved + vacations.rejected
   end
 
-  def show; end
+  def show
+    @vacation = Vacation.find(params[:id])
+  end
   
   def new
     @vacation = Vacation.new
   end
 
   def edit
-    redirect_to vacations_path, alert: '不可編輯，簽核已完成' if @vacation.status != 'pending'
+    @vacation = Vacation.find_by(slug: params[:id])
+    puts pp @vacation.attributes
+    if @vacation.status != 'pending'
+      redirect_to vacation_path(@vacation), alert: '不可編輯，簽核已完成' 
+    end
   end
 
   def create
-    puts "first"
     @vacation = current_company.vacations.new(vacation_params.merge(user: current_user))
-    puts "test"
-    puts @vacation
     if @vacation.save!
-      redirect_to vacations_path, notice: t('.假單申請成功')
+      # pp @vacation.attributes
+      redirect_to vacation_path(@vacation), notice: t('.假單申請成功')
     else
       render :new
     end
@@ -50,7 +53,7 @@ class VacationsController < ApplicationController
 
   def update
     if @vacation.update(vacation_params)
-      redirect_to vacations_path, notice: '更新成功'
+      redirect_to vacation_path(@vacation), notice: '更新成功'
     else
       render :edit
     end

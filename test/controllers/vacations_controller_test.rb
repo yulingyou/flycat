@@ -6,7 +6,14 @@ class VacationsControllerTest <
 
   setup do
     sign_in users(:first_user)
-    @vacation = vacations(:one)
+    @vacation = Vacation.create!(
+      vacation_type: "事假",
+      user_id: 1,
+      company_id: 1,
+      reason: "",
+      vacation_at: "2023-01-20",
+      status: "approved"
+    )
   end
 
   test "should get home" do
@@ -26,13 +33,16 @@ class VacationsControllerTest <
 
   test "should create vacation" do
     assert_difference('Vacation.count') do
-      post vacations_url, params: { vacation: {            vacation_type: "事假",
-      user_id: 1,
-      company_id: 1,
-      reason: "",
-      vacation_at: "2023-01-20"} }
+      post vacations_url, params: {
+        vacation: {
+          vacation_type: "事假",
+          user_id: 1,
+          company_id: 1,
+          reason: "",
+          vacation_at: "2023-01-20"
+        }
+      }
     end
-
     assert_redirected_to vacation_url(Vacation.last)
   end
 
@@ -41,14 +51,28 @@ class VacationsControllerTest <
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should redirect when vacation's status not pending" do
     get edit_vacation_url(@vacation)
+    assert_redirected_to vacation_url(@vacation)
+  end
+
+
+  test "should get edit" do
+    vacation_pending = Vacation.create!(
+      vacation_type: "事假",
+      user_id: 1,
+      company_id: 1,
+      reason: "",
+      vacation_at: "2023-01-30",
+      status: 'pending'
+    )
+    get edit_vacation_url(vacation_pending)
     assert_response :success
   end
 
   test "should update vacation" do
-    patch vacation_url(@vacation), params: { vacation: {  } }
-    assert_redirected_to vacation_url(@vacation)
+    patch vacation_url(@vacation), params: { vacation: {status: 'pending'} }
+    assert_redirected_to vacation_url(@vacation.reload)
   end
 
   test "should destroy vacation" do
