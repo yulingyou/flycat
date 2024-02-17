@@ -28,7 +28,7 @@ Clone the project to your local machine.
 git clone https://github.com/yulingyou/flycat.git
 ```
 
-Installs dependencies for based on the package.json file.
+Installs dependencies for JavaScript projects based on the package.json file.
 ```
 yarn install
 ```
@@ -78,9 +78,10 @@ ysiad926@gmail.com
 
 負責項目 Contributions 
 
+- 請假管理 Leave management
 - 多國語言 Multilingual support 
 - 金流串接 Payment gateway integration
-- 請假管理 Leave management
+
 
 
 
